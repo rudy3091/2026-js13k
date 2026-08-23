@@ -30,13 +30,13 @@ export function createWobbleSystem(): System {
       const dx = t.x - w.prevX
       const moving = dx !== 0 || t.y !== w.prevY
       const frame = idleFrame(time)
-      const r2 = moving ? s.r : s.r * frame.sy
+      const r2 = moving ? w.baseR2 : w.baseR2 * frame.sy
       world.add(e, 'transform', {
         ...t,
         rotation: moving ? Math.sin(time * FREQ) * MAX_ANGLE : frame.rot,
       })
-      world.add(e, 'sprite', { ...s, flip: dx !== 0 ? Math.sign(dx) : s.flip, r2, oy: s.r - r2 })
-      world.add(e, 'wobble', { prevX: t.x, prevY: t.y })
+      world.add(e, 'sprite', { ...s, flip: dx !== 0 ? Math.sign(dx) : s.flip, r2, oy: w.baseR2 - r2 })
+      world.add(e, 'wobble', { prevX: t.x, prevY: t.y, baseR2: w.baseR2 })
     })
   }
 }

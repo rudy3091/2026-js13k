@@ -1,6 +1,6 @@
 export type Orbit = { angle: number }
 export type Player = { walkSpeed: number; runSpeed: number }
-export type Wobble = { prevX: number; prevY: number }
+export type Wobble = { prevX: number; prevY: number; baseR2: number }
 export type Squash = { t: number; base: number }
 
 export type EnemyPhase = 'idle' | 'chase' | 'search' | 'windup' | 'charge'

@@ -31,9 +31,12 @@ const enemyPos = { x: 300, y: 0 }
 MAP.forEach((row, r) =>
   row.forEach((tile, c) => {
     if (tile !== 1) return
+    const x = c * TILE_W + TILE_W / 2
+    const y = r * GRID_H + TILE_H / 2
     world.spawn({
-      transform: { x: c * TILE_W + TILE_W / 2, y: r * GRID_H + TILE_H / 2, scale: 1, rotation: 0 } satisfies Transform,
+      transform: { x, y, scale: 1, rotation: 0 } satisfies Transform,
       sprite: { r: TILE_W / 2, r2: TILE_H / 2, flip: 1, cell: PLATFORM_CELL } satisfies Sprite,
+      wobble: { prevX: x, prevY: y, baseR2: TILE_H / 2 } satisfies Wobble,
     })
   }),
 )
@@ -41,7 +44,7 @@ MAP.forEach((row, r) =>
 world.spawn({
   transform: { x: playerPos.x, y: playerPos.y, scale: 1, rotation: 0 } satisfies Transform,
   sprite: { r: 20, flip: 1, cell: { x: 0, y: 0 } } satisfies Sprite,
-  wobble: { prevX: playerPos.x, prevY: playerPos.y } satisfies Wobble,
+  wobble: { prevX: playerPos.x, prevY: playerPos.y, baseR2: 20 } satisfies Wobble,
   player: { walkSpeed: 100, runSpeed: 180 } satisfies Player,
   velocity: { dx: 0, dy: 0 } satisfies Velocity,
   collider: { hw: 0, hh: 0, oy: 20 } satisfies Collider,
@@ -50,7 +53,7 @@ world.spawn({
 world.spawn({
   transform: { x: enemyPos.x, y: enemyPos.y, scale: 1, rotation: 0 } satisfies Transform,
   sprite: { r: 20, flip: 1, cell: { x: 1, y: 0 } } satisfies Sprite,
-  wobble: { prevX: enemyPos.x, prevY: enemyPos.y } satisfies Wobble,
+  wobble: { prevX: enemyPos.x, prevY: enemyPos.y, baseR2: 20 } satisfies Wobble,
   enemy: {
     speed: 80,
     detectRange: 400,
@@ -70,7 +73,7 @@ world.spawn({
 world.spawn({
   transform: { x: -enemyPos.x, y: enemyPos.y, scale: 1, rotation: 0 } satisfies Transform,
   sprite: { r: 20, flip: 1, cell: { x: 1, y: 0 } } satisfies Sprite,
-  wobble: { prevX: enemyPos.x, prevY: enemyPos.y } satisfies Wobble,
+  wobble: { prevX: enemyPos.x, prevY: enemyPos.y, baseR2: 20 } satisfies Wobble,
   enemy: {
     speed: 80,
     detectRange: 400,
